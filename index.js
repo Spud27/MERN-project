@@ -1,6 +1,6 @@
 import express from 'express'
-import mongoose from 'mongoose'
 import post_routes from './routes/post_routes.js'
+import { connect } from 'mongoose'
 
 
 const app = express()
@@ -17,8 +17,5 @@ app.use(post_routes)
 // the callback function is executed when the server starts
 app.listen(port, async () => {
   console.log(`Example app listening on port ${port}`)
-  // connect to MongoDB
-//   takes a connection string as an argument
-await mongoose.connect('mongodb://localhost:27017/mern_project')
-console.log(mongoose.connection.readyState === 1 ? 'Connected to MongoDB' : 'Failed to connect to MongoDB')
+  connect()
 })
