@@ -1,6 +1,7 @@
 // import express from 'express'
 import { Router } from 'express' // destructuring import
 import Post from '../models/post.js' // import the Post model
+import Category from '../models/category.js' // import the Category model
 
 const router = Router()
 
@@ -9,7 +10,13 @@ const router = Router()
 // posts routes
 // GET all posts
 router.get('/posts', async (req, res) => {
-  res.send(await Post.find({ isPublished: true })) // using mongoose to find all posts
+  res.send(await Post
+    .find({ isPublished: true }))
+    .populate({
+      path: 'category', // populating the category field with the Category model
+      select: 'name description' // selecting only the name and description fields from the Category model
+    })
+    .select('title body isPublished category') // selecting only the title, body, isPublished and category fields from the Post model
 })
 // GET one post
 router.get('/posts/:id', async (req, res) => {
